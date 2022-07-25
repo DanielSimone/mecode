@@ -1335,7 +1335,7 @@ class G(object):
         """
         self.write(r'LOADCALFILE "{}", 2D_CAL'.format(path))
 
-    def toggle_pressure(self, com_port):
+    def toggle_efd_pressure(self, com_port):
         """ Toggles (On/Off) Nordson Ultimus V Pressure Controllers.
 
         Parameters
@@ -1345,8 +1345,8 @@ class G(object):
 
         Examples
         --------
-        >>> #Turn on pressure on com 3
-        >>> g.toggle_pressure(3)
+        #>>> #Turn on pressure on com 3
+        #>>> g.toggle_efd_pressure(3)
 
         """
         self.write('Call togglePress P{}'.format(com_port))
@@ -1355,7 +1355,7 @@ class G(object):
         else:
             self.extruding = [com_port,True]
 
-    def set_pressure(self, com_port, value):
+    def set_efd_pressure(self, com_port, value):
         """ Sets pressure on Nordson Ultimus V Pressure Controllers.
 
         Parameters
@@ -1366,18 +1366,18 @@ class G(object):
             The pressure value to set.
         Examples
         --------
-        >>> #Set pressure on com 3 to 50.
-        >>> g.set_pressure(com_port=3, value=50)
+        #>>> #Set pressure on com 3 to 50.
+        #>>> g.set_efd_pressure(com_port=3, value=50)
 
         """
         self.write('Call setPress P{} Q{}'.format(com_port, value))
 
-    def set_vac(self, com_port, value):
-        """ Same as `set_pressure` method, but for vacuum.
+    def set_efd_vac(self, com_port, value):
+        """ Same as `set_efd_pressure` method, but for vacuum.
         """
         self.write('Call setVac P{} Q{}'.format(com_port, value))
 
-    def set_valve(self, num, value):
+    def set_efd_valve(self, num, value):
         """ Sets a digital output state (typically for valve).
 
         Parameters
@@ -1388,8 +1388,8 @@ class G(object):
             On or off (1 or 0).
         Examples
         --------
-        >>> #Turn on valve 2
-        >>> g.set_valve(num=2, value=1)
+        #>>> #Turn on valve 2
+        #>>> g.set_valve(num=2, value=1)
 
         """
         self.write('$DO{}.0={}'.format(num, value))
@@ -1444,7 +1444,7 @@ class G(object):
         self.write('Call omniSetInt P{}'.format(com_port))
 
     def set_alicat_pressure(self,com_port,value):
-        """ Same as `set_pressure` method, but for Alicat controller.
+        """ Same as `set_efd_pressure` method, but for Alicat controller.
         """
         self.write('Call setAlicatPress P{} Q{}'.format(com_port, value))
 
@@ -1580,7 +1580,7 @@ class G(object):
         print_height = np.copy(self._current_position['z'])
         print_feed = np.copy(self.speed)
 
-        self.set_pressure(com_port,pressure)
+        self.set_efd_pressure(com_port,pressure)
         for f in freq:
             # freq is in hz, ie 1/s. Thus dist = (m/s)/(1/s) = m
             dist = print_feed/f
@@ -1588,7 +1588,7 @@ class G(object):
             if len(switch_points)%2:
                 switch_points = switch_points[:-1]
             for point in switch_points:
-                self.toggle_pressure(com_port)
+                self.toggle_efd_pressure(com_port)
                 self.move(x=dist)
                 
             #Move to push into substrate
@@ -1629,17 +1629,17 @@ class G(object):
         
         for pressure in pressures:
             direction = 1
-            self.set_pressure(com_port,pressure)
-            self.toggle_pressure(com_port)
+            self.set_efd_pressure(com_port,pressure)
+            self.toggle_efd_pressure(com_port)
             for space in spacing:
-                #self.toggle_pressure(com_port)
+                #self.toggle_efd_pressure(com_port)
                 self.move(y=direction*width)
                 self.move(space)
                 if space == spacing[-1]:
                     self.move(y=-direction*width)
-                #self.toggle_pressure(com_port)
+                #self.toggle_efd_pressure(com_port)
                 direction *= -1
-            self.toggle_pressure(com_port)
+            self.toggle_efd_pressure(com_port)
             self.feed(travel_feed)
             self.move(z=5)
             if pressure != pressures[-1]:
@@ -1672,12 +1672,12 @@ class G(object):
         print_feed = np.copy(self.speed)
 
         for dist in distances:
-            self.toggle_pressure(com_port)
+            self.toggle_efd_pressure(com_port)
             self.dwell(dwell)
             self.feed(print_feed*dist/distances[0])
             self.move(y=dist)
             self.dwell(dwell)
-            self.toggle_pressure(com_port)
+            self.toggle_efd_pressure(com_port)
 
             self.move(z=-print_height)
             self.feed(travel_feed)
@@ -1711,12 +1711,12 @@ class G(object):
 
         print_height = np.copy(self._current_position['z'])
 
-        self.set_pressure(com_port,pressure)
-        self.toggle_pressure(com_port)
+        self.set_efd_pressure(com_port,pressure)
+        self.toggle_efd_pressure(com_port)
         self.dwell(dwell)
         self.move(x=length)
         self.dwell(dwell)
-        self.toggle_pressure(com_port)
+        self.toggle_efd_pressure(com_port)
         self.move(z=-print_height)
         self.feed(travel_feed)
         self.move(z=print_height+5)

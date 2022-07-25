@@ -58,11 +58,11 @@ jkljk
 
 def lineY(length,rate,COM,dw):
     g.feed(rate)
-    g.toggle_pressure(COM) #pressure ON
+    g.toggle_efd_pressure(COM) #pressure ON
     g.dwell(dw)
     g.move(0,length,0)
     g.dwell(dw)
-    g.toggle_pressure(COM) #pressure OFF
+    g.toggle_efd_pressure(COM) #pressure OFF
 
 def displace(sep):
     g.move(sep,0)
@@ -73,15 +73,15 @@ meander
 '''
 def multilayerMeander(layers,pressure,COM,length,width,spc,fly,up):
     for i in range(1,layers):
-        g.set_pressure(COM,pressure)
-        g.toggle_pressure(COM)
+        g.set_efd_pressure(COM,pressure)
+        g.toggle_efd_pressure(COM)
         g.feed(rate)
         g.move(0,0,up)
         g.dwell(dw)
         g.move(2,0,0)
         g.meander(length, width, spc)
-        g.toggle_pressure(COM)
-        g.set_pressure(COM,0)
+        g.toggle_efd_pressure(COM)
+        g.set_efd_pressure(COM,0)
         g.move(0,0,fly)
         g.move(-1*length-.5,0,0)
         g.move(0,0,-1*fly-1*spc*(layers-1))
@@ -89,14 +89,14 @@ def multilayerMeander(layers,pressure,COM,length,width,spc,fly,up):
         g.move(.5,-1*width,0)
         g.move(0,0,-1*fly)
 
-    g.set_pressure(COM,pressure)
-    g.toggle_pressure(COM)
+    g.set_efd_pressure(COM,pressure)
+    g.toggle_efd_pressure(COM)
     g.feed(rate)
     g.move(0,0,up)
     g.meander(length, width, spc)
     g.move(2,0,0)
-    g.toggle_pressure(COM)
-    g.set_pressure(COM,0)
+    g.toggle_efd_pressure(COM)
+    g.set_efd_pressure(COM,0)
     g.move(0,0,fly)
     g.move(-1*length-4,offset,0)
     g.move(0,0,-1*fly)

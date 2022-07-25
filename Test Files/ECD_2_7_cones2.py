@@ -18,7 +18,7 @@ splitted = cur_filepath.split('/')
 n = len(splitted)
 cur_dir = ''.join((dir+'/') for dir in splitted[:n-1])
 exportFileDir = cur_dir + "ECD_2_17_SQUARECONES_2layer.pgm"
-print "Exporting to file " +  str(exportFileDir)
+print("Exporting to file " +  str(exportFileDir))
 
 
 g = G(
@@ -58,11 +58,11 @@ jkljk
 
 def lineY(length,rate,COM,dw):
     g.feed(rate)
-    g.toggle_pressure(COM) #pressure ON
+    g.toggle_efd_pressure(COM) #pressure ON
     g.dwell(dw)
     g.move(0,length,0)
     g.dwell(dw)
-    g.toggle_pressure(COM) #pressure OFF
+    g.toggle_efd_pressure(COM) #pressure OFF
 
 def displace(sep):
     g.move(sep,0)
@@ -73,24 +73,24 @@ meander
 '''
 def multilayerMeander(layers,pressure,COM,length,width,spc,fly,up):
     for i in range(1,layers):
-        g.set_pressure(COM,pressure)
-        g.toggle_pressure(COM)
+        g.set_efd_pressure(COM,pressure)
+        g.toggle_efd_pressure(COM)
         g.feed(rate)
         g.move(0,0,up)
         g.meander(length, width, spc)
-        g.toggle_pressure(COM)
-        g.set_pressure(COM,0)
+        g.toggle_efd_pressure(COM)
+        g.set_efd_pressure(COM,0)
         g.move(0,0,fly)
         g.move(-1*length,-1*width,0)
         g.move(0,0,-1*fly)
 
-    g.set_pressure(COM,pressure)
-    g.toggle_pressure(COM)
+    g.set_efd_pressure(COM,pressure)
+    g.toggle_efd_pressure(COM)
     g.feed(rate)
     g.move(0,0,up)
     g.meander(length, width, spc)
-    g.toggle_pressure(COM)
-    g.set_pressure(COM,0)
+    g.toggle_efd_pressure(COM)
+    g.set_efd_pressure(COM,0)
     g.move(0,0,fly)
     g.move(-1*length,offset,0)
     g.move(0,0,-1*fly)
@@ -104,9 +104,9 @@ cone
 
 def cone(layers,pressure,COM,length,width,spc,fly,up):
     for i in range (1,layers+1):
-        g.set_pressure(COM,pressure)
+        g.set_efd_pressure(COM,pressure)
         g.feed(rate)
-        g.toggle_pressure(COM)
+        g.toggle_efd_pressure(COM)
         g.move(0,0,up)
         dir = 1
         tempLength=length
@@ -137,7 +137,7 @@ def cone(layers,pressure,COM,length,width,spc,fly,up):
                 dir = 1
             else:
                 dir=dir+1
-        g.toggle_pressure(COM)
+        g.toggle_efd_pressure(COM)
         g.move(0,0,fly)
         if dir == 1:
             g.move(-1*(curLength+tempLength-2*spc)/2,-1*(curWidth+tempWidth-2*spc)/2,0)

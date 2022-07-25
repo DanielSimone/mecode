@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 INFO = {'name': 'mecode',
-        'version': '0.2.9',
+        'version': '1.0',
         'description': 'Simple GCode generator',
-        'author': 'Jack Minardi',
-        'author_email': 'jack@minardi.org',
+        'author': 'Daniel Simone',
+        'author_email': 'dsimone@princeton.edu',
         }
 
 setup(
@@ -14,8 +14,8 @@ setup(
     author=INFO['author'],
     author_email=INFO['author_email'],
     packages=find_packages(),
-    url='https://github.com/jminardi/mecode',
-    download_url='https://github.com/jminardi/mecode/tarball/master',
+    url='https://github.com/DanielSimone/mecode',
+    download_url='https://github.com/DanielSimone/mecode/archive/refs/heads/master.zip',
     keywords=['gcode', '3dprinting', 'cnc', 'reprap', 'additive'],
     zip_safe=False,
     package_data = {

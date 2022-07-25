@@ -28,11 +28,11 @@ class EFDPressureBox(object):
         self.s.write(msg)
         self.s.read(self.s.inWaiting())
         
-    def set_pressure(self, pressure):
+    def set_efd_pressure(self, pressure):
         command = '08PS  {}'.format(str(int(pressure * 10)).zfill(4))
         self.send(command)
         
-    def toggle_pressure(self):
+    def toggle_efd_pressure(self):
         command = '04DI  '
         self.send(command)
         
